@@ -84,6 +84,25 @@ C itself. Before calling MTOP,
 C     OPEN(UNIT=99,NAME='NAME.TOP',STATUS='NEW')
 c Empty histograms are not put out by MTOP.
 C--------------------------------------------------------------------------
+      BLOCK DATA HISTOSET
+      include 'histo.f'
+      data book/nplot*'NO'/
+c     & ' NO','NO',' NO','NO',' NO','NO',' NO','NO',' NO','NO',
+c     & ' NO','NO',' NO','NO',' NO','NO',' NO','NO',' NO','NO',
+c     & ' NO','NO',' NO','NO',' NO','NO',' NO','NO',' NO','NO',
+c     & ' NO','NO',' NO','NO',' NO','NO',' NO','NO',' NO','NO',
+c     & ' NO','NO',' NO','NO',' NO','NO',' NO','NO',' NO','NO',
+c     & ' NO','NO',' NO','NO',' NO','NO',' NO','NO',' NO','NO',
+c     & ' NO','NO',' NO','NO',' NO','NO',' NO','NO',' NO','NO',
+c     & ' NO','NO',' NO','NO',' NO','NO',' NO','NO',' NO','NO',
+c     & ' NO','NO',' NO','NO',' NO','NO',' NO','NO',' NO','NO',
+c     & ' NO','NO',' NO','NO',' NO','NO',' NO','NO',' NO','NO',
+c     & ' NO','NO',' NO','NO',' NO','NO',' NO','NO',' NO','NO',
+c     & ' NO','NO',' NO','NO',' NO','NO',' NO','NO',' NO','NO',
+c     & ' NO','NO',' NO','NO',' NO','NO',' NO','NO',' NO','NO',
+c     & ' NO','NO',' NO','NO',' NO','NO',' NO','NO',' NO','NO',
+c     & ' NO','NO',' NO','NO',' NO','NO',' NO','NO',' NO','NO'/
+      END
 
       SUBROUTINE MBOOK(N,TIT,DEL,XMIN,XMAX)
       IMPLICIT REAL*8 (A-H,O-Z)

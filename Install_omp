@@ -74,4 +74,4 @@ fi
 
 echo ''
 echo 'Installation complete. You may now compile OMP MCFM by'
-echo 'ensuring that USEOMP = YES in the makefile and running make.'
+echo 'changing USEOMP to YES in the makefile and running make.'

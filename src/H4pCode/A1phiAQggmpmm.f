@@ -120,7 +120,7 @@ C -- calculate the projections of K1 flat on k1,k2,k3,k4 called a1,a2,a3,a4
       a3=-factor*gamma
       a4=a3
      
-C=--  The result for the 12-34 coefficient is 
+c---  The result for the 12-34 coefficient is 
 c       + iza(k1,k2)*iza(k3,k1f)*iza(k4,k1f) * (
 c          + za(k1,k1f)^2*za(k3,k4)^3*ga^-1*S1^2*[ga-S1]^-1);
 c     which we can rewrite as

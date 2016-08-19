@@ -47,8 +47,6 @@
       include 'x1x2.f'
       include 'bypart.f'
       include 'energy.f'
-      include 'first.f'
-      include 'initialscales.f'
 c--- APPLgrid - grid includes
 c      include 'ptilde.f'
 c      include 'APPLinclude.f'
@@ -72,7 +70,7 @@ c---- SSend
      . val,val2,fx1(-nf:nf),fx2(-nf:nf),fx1z(-nf:nf),fx2z(-nf:nf),xmsqt,
      . fx1_H(-nf:nf),fx2_H(-nf:nf),fx1_L(-nf:nf),fx2_L(-nf:nf),
      . fx1z_H(-nf:nf),fx2z_H(-nf:nf),fx1z_L(-nf:nf),fx2z_L(-nf:nf)
-      double precision pswt,xjac,m3,m4,m5,
+      double precision pswt,xjac,rscalestart,fscalestart,m3,m4,m5,
      . wgt,msq(-nf:nf,-nf:nf),msqv(-nf:nf,-nf:nf),msqvdk(-nf:nf,-nf:nf),
      . msqvdkW(-nf:nf,-nf:nf),
      . msq_qq,msq_aa,msq_aq,msq_qa,msq_qg,msq_gq,epcorr
@@ -80,7 +78,7 @@ c---- SSend
      . BrnRat,xmsq_old,tmp,ptmp,pttwo
       double precision xmsq_bypart(-1:1,-1:1)
       integer nshot,rvcolourchoice,sgnj,sgnk
-      logical bin,includedipole,checkpiDpjk
+      logical bin,first,includedipole,checkpiDpjk
       double precision QandGint
       character*4 mypart
 
@@ -94,14 +92,18 @@ c---- SSend
 c      common/ggZZunstable/ggZZunstable
 c      data p/56*0d0/
       data nshot/1/
+      data first/.true./
+      save first,rscalestart,fscalestart
       save nshot
       external gg_ZZ
-!$omp threadprivate(/rvcolourchoice/)
+!$omp threadprivate(first,rscalestart,fscalestart,/rvcolourchoice/)
 !$omp threadprivate(nshot,/useropt/)
 
       QandGflag=.false.
       if (first) then
          first=.false.
+         rscalestart=scale
+         fscalestart=facscale
          write(*,*) case
          nshot=1
       endif
@@ -130,7 +132,7 @@ c--- bother calculating the matrix elements for it, instead bail out
         goto 999
       endif
       
-      if (dynamicscale) call scaleset(initscale,initfacscale,p)
+      if (dynamicscale) call scaleset(rscalestart,fscalestart,p)
      
       z=r(ndim)**2
 c      if (nshot .eq. 1) z=0.95d0

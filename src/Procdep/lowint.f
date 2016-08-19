@@ -27,7 +27,6 @@
       include 'energy.f'
       include 'VVstrong.f'
       include 'dm_params.f'
-      include 'initialscales.f'
 c---- SSbegin
       include 'reweight.f'
 c---- SSend
@@ -51,7 +50,7 @@ c--- To use VEGAS random number sequence :
      & msq4(-nf:nf,-nf:nf,-nf:nf,-nf:nf)
       double precision flux,vol,vol_mass,vol3_mass,vol_wt,BrnRat
       double precision xmsq_bypart(-1:1,-1:1)
-      logical bin,includedipole,checkpiDpjk
+      logical bin,first,includedipole,checkpiDpjk
       double precision b1scale,q2scale,q1scale,b2scale
       external qg_tbq,BSYqqb_QQbdk_gvec,qqb_QQbdk,qg_tbqdk,qg_tbqdk_gvec,
      & qqb_Waa,qqb_Waa_mad
@@ -60,10 +59,18 @@ c--- To use VEGAS random number sequence :
       common/bin/bin
       common/BrnRat/BrnRat
       common/bqscale/b1scale,q2scale,q1scale,b2scale
+      data first/.true./
+      save first,rscalestart,fscalestart
       external qq_tchan_ztq,qq_tchan_ztq_mad
       external qq_tchan_htq,qq_tchan_htq_mad,qq_tchan_htq_amp
       external qqb_gamgam_g,qqb_gmgmjt_gvec
-!$omp threadprivate(/bqscale/)
+!$omp threadprivate(first,rscalestart,fscalestart,/bqscale/)
+
+      if (first) then
+         first=.false.
+         rscalestart=scale
+         fscalestart=facscale
+      endif
 
       ntotshot=ntotshot+1
       lowint=0d0
@@ -93,12 +100,12 @@ c--- bother calculating the matrix elements for it, instead bail out
 
 c      call writeout(p)
 c      stop
-      if (dynamicscale) call scaleset(initscale,initfacscale,p)
+      if (dynamicscale) call scaleset(rscalestart,fscalestart,p)
       
       xx(1)=-2d0*p(1,4)/sqrts
       xx(2)=-2d0*p(2,4)/sqrts
 
-      if (debug) write(*,*) 'Reconstructed x1,x2 ',xx(1),xx(2)
+      if (debug) write(*,*) 'Reconstructed x1,x2 ',xx(1),xx(2)      
 
 c--- Calculate the required matrix elements      
       if     (case .eq. 'W_only') then

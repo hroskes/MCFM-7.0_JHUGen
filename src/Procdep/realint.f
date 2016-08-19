@@ -36,7 +36,6 @@
       include 'energy.f'
       include 'incldip.f'
       include 'nproc.f'
-      include 'initialscales.f'
 
 c--- APPLgrid - enable grids
 c      include 'APPLinclude.f'
@@ -55,7 +54,7 @@ cz //
      . dipfx1(0:maxd,-nf:nf),dipfx2(0:maxd,-nf:nf),
      . fx1_H(-nf:nf),fx2_H(-nf:nf),fx1_L(-nf:nf),fx2_L(-nf:nf)
       double precision p(mxpart,4),pjet(mxpart,4),p1ext(4),p2ext(4)
-      double precision pswt
+      double precision pswt,rscalestart,fscalestart
       double precision s(mxpart,mxpart),wgt,msq(-nf:nf,-nf:nf)
       double precision msqa(-nf:nf,-nf:nf)
       double precision msqc(maxd,-nf:nf,-nf:nf),xmsq(0:maxd)
@@ -67,7 +66,7 @@ cz //
       integer sgnj,sgnk
       common/xreal/xreal,xreal2
       common/Rbbmin/Rbbmin
-      logical bin,failed
+      logical bin,first,failed
       logical includedipole,includereal
       double precision QandGint
       external qqb_w2jet_g,qqb_w2jet_gs,qqb_z2jet_g,qqb_z2jet_gs,
@@ -116,12 +115,19 @@ cz Add b fraction
       data bwgt / 0d0 /  ! in common block
 cz // Add b fraction   Note: only msqtmp(0), bwgttmp(0) are used in nplotter.f
 !      data p/56*0d0/
-!$omp threadprivate(/pext/)
+      data first/.true./
+      save first,rscalestart,fscalestart
+!$omp threadprivate(/pext/,first,rscalestart,fscalestart)
 
 
       QandGflag=.false.
       p(:,:)=0d0
 
+      if (first) then
+         first=.false.
+         rscalestart=scale
+         fscalestart=facscale
+      endif
       ntotshot=ntotshot+1
       pswt=0d0
       realint=0d0      
@@ -215,7 +221,7 @@ c--- (W+2 jet and Z+2 jet processes only)
    44 continue   
       
       if (dynamicscale) then
-        call scaleset(initscale,initfacscale,p)
+        call scaleset(rscalestart,fscalestart,p)
         dipscale(0)=facscale
       endif
       

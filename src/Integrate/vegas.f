@@ -17,7 +17,6 @@
         include 'ewcouple.f'
         include 'masses.f'
         include 'ipsgen.f'
-	include 'facscale.f'
 	include 'scale.f'
 	include 'stopscales.f'
         include 'gridinfo.f'
@@ -121,8 +120,8 @@ c--- read-in grid if necessary
 !$omp& shared(incall,xi,ncall,ndim,sfun,sfun2,d,cfun,cfun2,cd)
 !$omp& copyin(/xmin/,/taumin/,/cutoff/,/jetcuts/,/breit/,/zerowidth/)
 !$omp& copyin(/srdiags/,/vsymfact/,/qcdcouple/,/ewcouple/,/masses/)
-!$omp& copyin(/interference/,/facscale/,/mcfmscale/,/stopscales/)
-!$omp& copyin(/ipsgen/,/pext/,/ColC/,/qlfirst/,/ptildes/)
+!$omp& copyin(/interference/,/ipsgen/,/scale/,/stopscales/)
+!$omp& copyin(/pext/,/ColC/,/qlfirst/,/ptildes/)
 !$omp& copyin(/bitflags/,/flags/,/lastphot/)
 !$omp& copyin(/QCDb0/,/nodecay/,/swapxz/,/heavyflav/)
 !$omp& copyin(/notag/,/nflav/,/reset/)

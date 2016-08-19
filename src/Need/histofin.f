@@ -1,3 +1,9 @@
+      block data linlog_data
+      implicit none
+      include 'nplot.f'
+      data linlog/nplot*'lin'/
+      end
+
       subroutine histofin(xsec,xsec_err,itno,itmx)
 c--- This outputs the final histograms for itno=0
 c--- For itno>0, this is an intermediate result only

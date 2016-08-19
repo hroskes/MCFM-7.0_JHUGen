@@ -24,25 +24,33 @@
       include 'x1x2.f'
       include 'bypart.f'
       include 'energy.f'
-      include 'initialscales.f'
       integer ih1,ih2,j,k,sgnj,sgnk,nvec,pflav,pbarflav
-      double precision r(mxdim),wgt,pswt,
+      double precision r(mxdim),wgt,pswt,rscalestart,fscalestart,
      & p(mxpart,4),flux,xmsq_bypart(-1:1,-1:1),
      & BrnRat,pjet(mxpart,4),val,val2,
      & xmsq,xmsqjk,W,msq(-nf:nf,-nf:nf),fx1(-nf:nf),fx2(-nf:nf),
      & ran2,msqdips(-nf:nf,-nf:nf),p_phys(mxpart,4),
      & wt34,wt345,wtprop,s34,s345,dot,wtips(4)
       double precision m3,m4,m5
-      logical bin,includedipole,vetow_2gam
+      logical bin,first,includedipole,vetow_2gam
       external qqb_w_g,qqb_z1jet,qqb_dirgam,qqb_2j_t,qqb_2j_s,
      & qqb_z2jetx,qqb_zaj,qqb_dm_monojet,qqb_gmgmjt,qqb_dirgam_g,
      & qqb_trigam_g
       common/density/ih1,ih2
       common/bin/bin
       common/BrnRat/BrnRat
+      data first/.true./
+      save first,rscalestart,fscalestart
+!$omp threadprivate(first,rscalestart,fscalestart)
       
 c--- statement function
       wtprop(s34,wmass,wwidth)=(s34-wmass**2)**2+(wmass*wwidth)**2
+
+      if (first) then
+         first=.false.
+         rscalestart=scale
+         fscalestart=facscale
+      endif
 
       ntotshot=ntotshot+1
       fragint=0d0
@@ -107,7 +115,7 @@ c--- cut on z_frag
       if((z_frag .lt. 0.0001d0) .or. (z_frag .gt. 1d0)) goto 999
        
       if (dynamicscale) then 
-         call scaleset(initscale,initfacscale,p_phys)
+         call scaleset(rscalestart,fscalestart,p_phys)
       endif
 
       xx(1)=-2d0*p(1,4)/sqrts

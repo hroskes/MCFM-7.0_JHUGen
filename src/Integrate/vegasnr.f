@@ -19,7 +19,6 @@
       include 'ewcouple.f'
       include 'masses.f'
       include 'ipsgen.f'
-      include 'facscale.f'
       include 'scale.f'
       include 'stopscales.f'
       include 'qlfirst.f'
@@ -35,10 +34,7 @@
       include 'notag.f'
       include 'reset.f'
       include 'lc.f'
-      include 'TRmaxindex.f'
-      include 'epinv.f'
-      include 'epinv2.f'
-      include 'histo.f'
+
       INTEGER init,itmx,ncall,ndim,nprn,NDMX
       DOUBLE PRECISION tgral,chi2a,sd,region(2*mxdim),fxn,ALPH,TINY
 c--- Note: NDMX increased to 100 (from 50) compared with versions 5.1 and
@@ -181,12 +177,11 @@ c--- do not continue to adapt grid when using a small number of calls
 !$omp& shared(cfun,cfun2,cd,cdi)
 !$omp& copyin(/xmin/,/taumin/,/cutoff/,/jetcuts/,/breit/,/zerowidth/)
 !$omp& copyin(/srdiags/,/vsymfact/,/qcdcouple/,/ewcouple/,/masses/)
-!$omp& copyin(/interference/,/facscale/,/mcfmscale/,/stopscales/)
-!$omp& copyin(/ipsgen/,/pext/,/ColC/,/qlfirst/,/ptildes/)
+!$omp& copyin(/interference/,/ipsgen/,/scale/,/stopscales/)
+!$omp& copyin(/pext/,/ColC/,/qlfirst/,/ptildes/)
 !$omp& copyin(/bitflags/,/flags/,/lastphot/)
 !$omp& copyin(/QCDb0/,/nodecay/,/swapxz/,/heavyflav/)
-!$omp& copyin(/notag/,/nflav/,/reset/,/pvmaxindex/)
-!$omp& copyin(/epinv/,/epinv2/,/plotindex/)
+!$omp& copyin(/notag/,/nflav/,/reset/)
           do 19 k=1,npg
             wgt=xjac
 !$omp critical(VegasRandom)
