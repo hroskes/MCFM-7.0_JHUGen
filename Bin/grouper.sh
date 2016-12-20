@@ -24,7 +24,7 @@ for j in 0; do
 #bash templateMCFM.sh ${PROCS[$j]} $i 100 500 ${MULTS[$j]} ${M[$j]}
 
 #bash templateMCFM.sh ${PROCS[$j]} $i 100 500 ${MULTS[$j]} ${M[$j]} SIG
-bash templateMCFM.sh ${PROCS[$j]} $i 1 500 ${MULTS[$j]} ${M[$j]} BKG
+bash templateMCFM.sh ${PROCS[$j]} $i 200 500 ${MULTS[$j]} ${M[$j]} BKG
 #bash templateMCFM.sh ${PROCS[$j]} $i 200 500 ${MULTS[$j]} ${M[$j]} BSI
 done
 done

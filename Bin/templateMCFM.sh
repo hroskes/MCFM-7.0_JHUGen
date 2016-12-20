@@ -80,7 +80,7 @@ let COUNTER=0
 while [ $COUNTER -lt $NJOBS ];
 do
  JOBFILE="input_"$COUNTER".DAT"
- cp input.TEMPLATE.BKG $JOBFILE
+ cp input.DAT $JOBFILE
  sed -i 's~NEVENTS~'$NEVENTSPERJOB'~g' $JOBFILE
  sed -i 's~JOBNUMBER~'$COUNTER'~g' $JOBFILE
  sed -i 's~PROCESS~'$PROCESS'~g' $JOBFILE
